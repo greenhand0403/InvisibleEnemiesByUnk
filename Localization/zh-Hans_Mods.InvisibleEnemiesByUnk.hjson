@@ -1,0 +1,10 @@
+Configs: {
+	IgnoreSpectreGogglesConfig: {
+		IgnoreSpectreGoggles: {
+			Tooltip: 强制全体回声隐身
+			Label: 忽略幽灵护目镜效果
+		}
+
+		DisplayName: 忽略幽灵护目镜
+	}
+}

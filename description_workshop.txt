@@ -1,0 +1,66 @@
+Echoed World - Invisible Traps & Enemies
+回声世界 - 隐形陷阱与敌怪
+
+==================================================
+
+English
+--------
+
+This is a small gameplay challenge mod.
+
+All traps and hostile enemies are rendered as if they were painted with Echo Paint.
+They become invisible unless the player equips Spectre Goggles.
+
+✔ Traps are invisible
+✔ Hostile enemies are invisible
+✔ Hostile projectiles remain invisible
+
+The effect is purely visual and client-side.
+Enemies still behave normally — you just can’t see them without proper equipment.
+
+This mod is designed for:
+- Hardcore challenge runs
+- Hardcore multiplayer chaos
+- "Trust nothing" dungeon exploration
+- Psychological warfare with friends
+
+Config Options:
+- Toggle invisible traps
+- Toggle invisible enemies
+
+Compatible with most content mods.
+Does not modify AI or stats — only rendering.
+
+--------------------------------------------------
+
+中文
+--------
+
+这是一个小型玩法挑战模组。
+
+所有陷阱与敌对敌怪都会被视为涂上“回声漆”，
+除非玩家佩戴【幽灵护目镜】，否则无法看到它们。
+
+✔ 陷阱隐形
+✔ 敌怪隐形
+✔ 敌方弹幕隐形
+
+该效果仅影响视觉表现，不会修改敌怪AI或数值。
+
+适合：
+- 高难度挑战玩法
+- 多人联机整活
+- 地牢探险极限模式
+- 和朋友心理战
+
+配置项：
+- 开关陷阱隐形
+- 开关敌怪隐形
+
+兼容大多数内容Mod。
+仅修改渲染逻辑，不改动游戏机制。
+
+==================================================
+
+Good luck. Trust nothing.
+祝你好运。不要相信任何东西。

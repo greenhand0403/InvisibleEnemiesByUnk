@@ -1,0 +1,6 @@
+All traps and hostile enemies become invisible unless wearing Spectre Goggles.
+
+所有陷阱与敌怪在未佩戴幽灵护目镜时均为隐形。
+
+A small visual challenge mod.
+一个纯视觉挑战微型模组。
