@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -16,7 +17,7 @@ namespace InvisibleEnemiesByUnk.Content.Enemy
         public override void SetDefaults()
         {
             NPC.width = 87;
-            NPC.height = 60;
+            NPC.height = 72;
             NPC.scale = 0.5f;
 
             NPC.damage = 22;
@@ -73,65 +74,96 @@ namespace InvisibleEnemiesByUnk.Content.Enemy
         public override void AI()
         {
             Player target = Main.player[NPC.target];
-
             if (!target.active || target.dead)
             {
                 NPC.TargetClosest();
                 target = Main.player[NPC.target];
             }
 
-            float distance = Vector2.Distance(NPC.Center, target.Center);
+            float dx = target.Center.X - NPC.Center.X;
 
-            if (distance < 400f)
+            // 在一定距离内，强制方向朝向玩家
+            if (Math.Abs(dx) < 700f)
+            {
+                NPC.direction = dx > 0 ? 1 : -1;
+                NPC.spriteDirection = NPC.direction;
+            }
+
+            // 可选：像原版一样判断是否能直视玩家（更像尖刺史莱姆）
+            bool canHit = Collision.CanHit(
+                new Vector2(NPC.position.X, NPC.position.Y - 20f),
+                NPC.width,
+                NPC.height + 20,
+                target.position,
+                target.width,
+                target.height
+            );
+
+            float distance = Vector2.Distance(NPC.Center, target.Center);
+            // 仅在地面上才发射弹 && NPC.velocity.Y == 0f
+            if (distance < 480f && canHit)
             {
                 NPC.localAI[0]++;
 
-                if (NPC.localAI[0] >= 120)
+                if (NPC.localAI[0] >= 90)
                 {
                     NPC.localAI[0] = 0;
-
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                    {
-                        Vector2 direction = target.Center - NPC.Center;
-                        direction.Normalize();
-                        direction *= 6f;
-
-                        Projectile.NewProjectile(
-                            NPC.GetSource_FromAI(),
-                            NPC.Center,
-                            direction,
-                            ProjectileID.BloodShot,
-                            15,
-                            1f,
-                            Main.myPlayer
-                        );
-                    }
+                    FireBloodVolley(target);
                 }
+            }
+            else
+            {
+                NPC.localAI[0] = 0;
+            }
+        }
+        // 触发时调用，比如在距离内且冷却到点时
+        private void FireBloodVolley(Player target)
+        {
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+                return;
+
+            // 发射点：NPC正上方
+            Vector2 shootFrom = NPC.Top;
+
+            int projType = ProjectileID.BloodShot;
+            int damage = 18;
+            float knockBack = 1f;
+
+            // 中间那枚：固定速度
+            float baseSpeed = 6f+ Main.rand.NextFloat(1f, 2f);
+
+            // 计算“指向玩家”的基础速度向量
+            Vector2 baseVel = target.Center - shootFrom;
+            if (baseVel.LengthSquared() < 0.001f)
+                baseVel = Vector2.UnitX;
+            baseVel.Normalize();
+            baseVel *= baseSpeed;
+
+            // 随机扰动弧度 m（你可以调范围，建议 10°~20°）
+            float m = Main.rand.NextFloat(MathHelper.ToRadians(10f), MathHelper.ToRadians(20f));
+
+            // 依次发射：0, +m, +2m, -m, -2m
+            float[] rots = { 0f, +m, +2f * m, -m, -2f * m };
+
+            for (int i = 0; i < rots.Length; i++)
+            {
+                // 可选：给“克隆弹”一点速度随机扰动（中间那枚保持固定速度）
+                float speedMul = (i == 0) ? 1f : Main.rand.NextFloat(0.92f, 1.08f);
+
+                Vector2 vel = baseVel.RotatedBy(rots[i]) * speedMul;
+
+                Projectile.NewProjectile(
+                    NPC.GetSource_FromAI(),
+                    shootFrom,
+                    vel,
+                    projType,
+                    damage,
+                    knockBack,
+                    Main.myPlayer
+                );
             }
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
-        {
-            Texture2D spikes = ModContent.Request<Texture2D>(
-                "InvisibleEnemiesByUnk/Content/Enemy/BloodySlime_Spikes"
-            ).Value;
-
-            Vector2 drawPos = NPC.Center - screenPos;
-            // 尖刺绘制位置往上方偏移一点点
-            drawPos.Y -= NPC.height * NPC.scale;
-
-            spriteBatch.Draw(
-                spikes,
-                drawPos,
-                null,
-                drawColor,
-                0f,
-                spikes.Size() / 2f,
-                NPC.scale,
-                NPC.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
-                0f
-            );
-        }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.Player.ZoneCrimson && spawnInfo.SpawnTileY < Main.worldSurface)

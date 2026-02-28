@@ -1,13 +1,4 @@
 Configs: {
-	IgnoreSpectreGogglesConfig: {
-		IgnoreSpectreGoggles: {
-			Tooltip: ""
-			Label: Ignore Spectre Goggles
-		}
-
-		DisplayName: Ignore Spectre Goggles Config
-	}
-
 	MyModConfig: {
 		IgnoreSpectreGoggles: {
 			Tooltip: ""

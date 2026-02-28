@@ -1,26 +1,17 @@
 Configs: {
-	IgnoreSpectreGogglesConfig: {
+	MyModConfig: {
 		IgnoreSpectreGoggles: {
-			Tooltip: 强制全体回声隐身
+			Tooltip: 勾选后，即使佩戴幽灵护目镜，也会强制全体敌怪、射弹和陷阱回声隐身
 			Label: 忽略幽灵护目镜效果
 		}
 
-		DisplayName: 忽略幽灵护目镜
-	}
-
-	MyModConfig: {
-		IgnoreSpectreGoggles: {
-			// Tooltip: ""
-			// Label: Ignore Spectre Goggles
-		}
-
 		InvisibleEnemies: {
-			// Tooltip: ""
-			// Label: Invisible Enemies
+			Tooltip: 勾选使全体敌怪、射弹和陷阱回声隐身
+			Label: 敌怪隐身
 		}
 
-		// DisplayName: My Mod Config
+		DisplayName: 隐身敌怪模组配置
 	}
 }
 
-// NPCs.BloodySlime.DisplayName: Bloody Slime
+NPCs.BloodySlime.DisplayName: 血腥史莱姆
