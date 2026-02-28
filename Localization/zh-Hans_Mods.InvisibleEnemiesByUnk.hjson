@@ -14,4 +14,7 @@ Configs: {
 	}
 }
 
-NPCs.BloodySlime.DisplayName: 血腥史莱姆
+NPCs: {
+	BloodySlime.DisplayName: 血腥史莱姆
+	BloodySlimeBaby.DisplayName: 血腥史莱姆宝宝
+}

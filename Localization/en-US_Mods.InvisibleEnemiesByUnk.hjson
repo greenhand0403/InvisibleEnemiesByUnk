@@ -14,4 +14,7 @@ Configs: {
 	}
 }
 
-NPCs.BloodySlime.DisplayName: Bloody Slime
+NPCs: {
+	BloodySlime.DisplayName: Bloody Slime
+	BloodySlimeBaby.DisplayName: Bloody Slime Baby
+}

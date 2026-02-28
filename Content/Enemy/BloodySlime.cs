@@ -163,7 +163,45 @@ namespace InvisibleEnemiesByUnk.Content.Enemy
                 );
             }
         }
+        public override void OnKill()
+        {
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+                return;
 
+            int babyType = ModContent.NPCType<BloodySlimeBaby>();
+
+            // 让4个宝宝在尸体附近“十字分布”，避免重叠
+            Vector2[] offsets =
+            {
+                new Vector2(-22f, 0f),
+                new Vector2( 22f, 0f),
+                new Vector2( 0f, -18f),
+                new Vector2( 0f, 18f),
+            };
+
+            for (int i = 0; i < offsets.Length; i++)
+            {
+                Vector2 spawnPos = NPC.Center + offsets[i];
+
+                int idx = NPC.NewNPC(
+                    NPC.GetSource_Death(),
+                    (int)spawnPos.X,
+                    (int)spawnPos.Y,
+                    babyType
+                );
+
+                if (idx >= 0 && idx < Main.maxNPCs)
+                {
+                    NPC baby = Main.npc[idx];
+
+                    // 给一点初速度，把他们“弹开”，更不容易重叠
+                    baby.velocity = offsets[i].SafeNormalize(Vector2.UnitY) * Main.rand.NextFloat(2.2f, 3.4f);
+                    baby.velocity.Y -= Main.rand.NextFloat(1.0f, 2.0f);
+
+                    baby.netUpdate = true;
+                }
+            }
+        }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.Player.ZoneCrimson && spawnInfo.SpawnTileY < Main.worldSurface)
