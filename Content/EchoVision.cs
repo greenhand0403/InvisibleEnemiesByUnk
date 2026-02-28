@@ -25,7 +25,11 @@ namespace InvisibleEnemiesByUnk.Content
             if (player == null || !player.active)
                 return false;
 
-            var cfg = ModContent.GetInstance<IgnoreSpectreGogglesConfig>();
+            var cfg = ModContent.GetInstance<MyModConfig>();
+            
+            if (!cfg.InvisibleEnemies)
+                return true;
+            
             if (cfg.IgnoreSpectreGoggles)
                 return false;
 

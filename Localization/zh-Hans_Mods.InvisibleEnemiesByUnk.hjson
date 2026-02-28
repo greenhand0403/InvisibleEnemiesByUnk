@@ -7,4 +7,20 @@ Configs: {
 
 		DisplayName: 忽略幽灵护目镜
 	}
+
+	MyModConfig: {
+		IgnoreSpectreGoggles: {
+			// Tooltip: ""
+			// Label: Ignore Spectre Goggles
+		}
+
+		InvisibleEnemies: {
+			// Tooltip: ""
+			// Label: Invisible Enemies
+		}
+
+		// DisplayName: My Mod Config
+	}
 }
+
+// NPCs.BloodySlime.DisplayName: Bloody Slime
